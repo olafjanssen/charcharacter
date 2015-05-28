@@ -1,0 +1,211 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<style>
+			body {
+				font-size: 8em;
+				font-family: monospace;
+			}
+
+			.under, .over, .over-left, .over-right, .under-left, .under-right {
+				position: relative;
+			}
+
+			.under::before, .under-left::before, .under-right::before {
+				content: '';
+				border-bottom: 0.075em solid black;
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0.05em;
+			}
+
+			.over::after, .over-left::after, .over-right::after {
+				content: '';
+				border-top: 0.075em solid black;
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0.263em;
+			}
+
+			.over-left::after {
+				right: 0.4em;
+			}
+			
+			.over-right::after {
+				left: 0.4em;
+			}
+
+			.under-left::before {
+				right: 0.35em;
+			}
+
+			.under-right::before {
+				left: 0.4em;
+			}
+
+		</style>
+		<script type="text/javascript" src="bower_components/findAndReplaceDOMText/src/findAndReplaceDOMText.js"></script>
+	</head>
+	<body>
+		<div id="content">
+		<!-- het vliegtuig in de aap paljas -->
+		Food truck cold-pressed flannel, American Apparel sustainable bicycle rights swag umami dreamcatcher craft beer crucifix mustache asymmetrical. Odd Future fanny pack Bushwick migas, raw denim PBR yr meggings Pinterest DIY heirloom retro. Sriracha Godard quinoa, actually selvage disrupt asymmetrical post-ironic artisan. Lomo Tumblr XOXO, photo booth yr Banksy Odd Future polaroid organic roof party readymade wolf banjo master cleanse paleo. Artisan cred skateboard next level. Kogi dreamcatcher Bushwick sartorial +1. Kogi fashion axe kale chips forage Echo Park, Odd Future tattooed selfies authentic occupy try-hard lomo heirloom.
+
+Tilde cray fixie XOXO, actually dreamcatcher paleo. Cliche narwhal trust fund wayfarers hoodie chambray. VHS single-origin coffee trust fund, quinoa PBR Portland keffiyeh Carles. Listicle ethical butcher blog Portland narwhal. Organic keffiyeh street art twee 8-bit. Brunch tote bag cronut, mustache gentrify shabby chic leggings craft beer before they sold out Shoreditch letterpress street art distillery salvia. Keffiyeh cornhole fashion axe gentrify 8-bit, pork belly VHS ethical banjo kitsch mlkshk.
+
+Drinking vinegar single-origin coffee migas Godard. Roof party bespoke crucifix cliche sriracha Godard, Marfa vegan photo booth Echo Park banjo cornhole 8-bit taxidermy. Semiotics deep v quinoa, scenester literally master cleanse XOXO. Pickled hoodie fixie literally next level, DIY locavore readymade farm-to-table. American Apparel slow-carb swag, bespoke roof party Helvetica Williamsburg cray cliche Vice you probably haven't heard of them butcher cred letterpress. 3 wolf moon cornhole irony selfies forage Kickstarter. Austin Banksy Neutra, mixtape twee squid four dollar toast cray butcher ugh.
+
+Whatever stumptown bitters, selvage disrupt locavore heirloom crucifix normcore keffiyeh art party seitan direct trade. Farm-to-table Austin lomo whatever, Bushwick drinking vinegar bicycle rights chillwave Echo Park blog vinyl sustainable narwhal Neutra tattooed. Street art paleo meh ennui. Flexitarian mustache kale chips Brooklyn mumblecore, taxidermy dreamcatcher locavore. Etsy aesthetic narwhal, typewriter actually pop-up cred pug tote bag McSweeney's messenger bag lomo fanny pack mumblecore literally. Raw denim cold-pressed synth freegan post-ironic, kogi Etsy four dollar toast Blue Bottle. Polaroid ugh authentic disrupt ethical single-origin coffee.
+		</div>
+	</body>
+
+	<script>
+
+		function textNodesUnder(el){
+		  var n, a=[], walk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false);
+		  while(n=walk.nextNode()) a.push(n);
+		  return a;
+		}
+
+		var text = document.getElementById('content').innerText;
+
+		// wrap all characters by a span
+		var fragment = document.createElement('span');
+		fragment.innerHTML = text.replace(/./g, '<span>$&</span>');
+
+		function upper(el, stopContent) {
+			if (/[lh]/.exec(el.innerText)) {
+				backwardScan(el);
+			}
+			if (/[f]/.exec(el.innerText)) {
+				forwardScan(el);
+			}
+
+			el = el.nextSibling;
+			if (el){
+				upper(el);
+			}
+		}
+
+		function lower(el, stopContent) {
+			if (/[gyj]/.exec(el.innerText)) {
+				backwardLowerScan(el);
+			}
+			if (/[q]/.exec(el.innerText)) {
+				forwardLowerScan(el);
+			}
+
+			el = el.nextSibling;
+			if (el){
+				lower(el);
+			}
+		}
+
+		function forwardScan(el, stopContent) {
+			el.classList.add('over-right');
+			while(el = el.nextSibling) {
+				if (/[ij\s,]/.exec(el.innerText)) {
+					break;
+				}
+				if (el.innerText === 'b') {
+					if (!el.classList.contains('over')){
+						el.classList.add('over-left');
+					}
+				} else {
+					el.classList.add('over');
+					el.classList.remove('over-left');
+					el.classList.remove('over-right');
+				}
+				if (/[bd]/.exec(el.innerText)) {
+					break;
+				}
+			}			
+		}
+
+		function backwardScan(el, stopContent) {
+			el.classList.add('over-left');
+			while(el = el.previousSibling) {
+				if (/[ij\s,A-Z]/.exec(el.innerText)) {
+					break;
+				}
+				if (/[df]/.exec(el.innerText)) {
+					if (!el.classList.contains('over')){
+						el.classList.add('over-right');
+					}
+				} else {
+					el.classList.add('over');
+					el.classList.remove('over-left');
+					el.classList.remove('over-right');
+				}
+				if (/[bd]/.exec(el.innerText)) {
+					break;
+				}
+			}			
+		}
+
+		function forwardLowerScan(el, stopContent) {
+			el.classList.add('under-right');
+			while(el = el.nextSibling) {
+				if (/[\s,]/.exec(el.innerText)) {
+					break;
+				}
+				if (el.innerText === 'p') {
+					if (!el.classList.contains('under')){
+						el.classList.add('under-left');
+					}
+				} else {
+					el.classList.add('under');
+					el.classList.remove('under-left');
+					el.classList.remove('under-right');
+				}
+				if (/[q]/.exec(el.innerText)) {
+					break;
+				}
+			}			
+		}
+
+		function backwardLowerScan(el, stopContent) {
+			el.classList.add('under-left');
+			while(el = el.previousSibling) {
+				if (/[gyj\s]/.exec(el.innerText)) {
+					break;
+				}
+				if (el.innerText === 'q') {
+					if (!el.classList.contains('under')){
+						el.classList.add('under-right');
+					}
+				} else {
+					el.classList.add('under');
+					el.classList.remove('under-left');
+					el.classList.remove('under-right');
+				}
+				if (/[p]/.exec(el.innerText)) {
+					break;
+				}
+			}			
+		}
+
+		upper(fragment.firstChild);
+		lower(fragment.firstChild);
+
+		// combine spans
+		function combiner(el, stopContent) {
+			var next = el;
+
+			while (el = next) {
+				while ((next = el.nextSibling) && el.getAttribute('class') == next.getAttribute('class')){
+					el.innerText = el.innerText + next.innerText;
+					next.parentElement.removeChild(next);
+				}
+			}
+		}
+
+		combiner(fragment.firstChild);
+
+		document.getElementById('content').innerHTML = fragment.innerHTML;
+
+	</script>
+
+</html>

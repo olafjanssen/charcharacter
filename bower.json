@@ -1,0 +1,15 @@
+{
+  "name": "belined",
+  "version": "0.0.0",
+  "authors": [
+    "Olaf Janssen <o.t.a.janssen@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
