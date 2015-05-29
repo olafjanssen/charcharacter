@@ -1,0 +1,111 @@
+			.cc-demo {
+				font-family: 'Courier', monospace;
+				box-sizing: border-box;
+				position: relative;
+				font-size: 4.5em;
+				border: 1px solid black;
+				width: 5em;
+				text-align: center;
+				padding: 0.75em 0;
+			}
+
+			.cc-demo-before::after {
+				background-color: black;
+				padding: 0.25em 0.5em;
+				font-size: 0.25em;
+				content: 'cc::before';
+				position: absolute;
+				color: white;
+				left: 0;
+				top: 0;
+			}
+
+			.cc-demo-after::after {
+				background-color: black;
+				padding: 0.25em 0.5em;
+				font-size: 0.25em;
+				content: 'cc::after';
+				position: absolute;
+				color: white;
+				left: 0;
+				top: 0;
+			}
+
+			.cc-demo-output::after {
+				background-color: black;
+				padding: 0.25em 0.5em;
+				font-size: 0.25em;
+				content: 'output';
+				position: absolute;
+				color: white;
+				left: 0;
+				top: 0;
+			}
+
+			#cc-demo-input::after {
+				background-color: black;
+				padding: 0.25em 0.5em;
+				font-size: 0.25em;
+				content: 'input';
+				position: absolute;
+				color: white;
+				left: 0;
+				top: 0;
+			}
+
+
+			#cc-belined-input {
+				width: 21.5em;
+				margin: 1em 0;
+				padding: 0.5em;
+			}
+
+			.cc-lining {
+			}
+
+			.cc-lining-under,
+			.cc-lining-over,
+			.cc-lining-over-left,
+			.cc-lining-over-right,
+			.cc-lining-under-left,
+			.cc-lining-under-right {
+				position: relative;
+			}
+
+			.cc-lining-under::before,
+			.cc-lining-under-left::before,
+			.cc-lining-under-right::before {
+				content: '';
+				border-bottom: 0.075em solid black;
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0.05em;
+			}
+
+			.cc-lining-over::after, 
+			.cc-lining-over-left::after, 
+			.cc-lining-over-right::after {
+				content: '';
+				border-top: 0.075em solid black;
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 0.263em;
+			}
+
+			.cc-lining-over-left::after {
+				right: 0.4em;
+			}
+			
+			.cc-lining-over-right::after {
+				left: 0.4em;
+			}
+
+			.cc-lining-under-left::before {
+				right: 0.35em;
+			}
+
+			.cc-lining-under-right::before {
+				left: 0.4em;
+			}
